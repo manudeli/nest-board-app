@@ -1,11 +1,10 @@
+import { IsNotEmpty } from 'class-validator';
 import { Board } from '../board.model';
 
 export class CreateBoardDTO {
+  @IsNotEmpty()
   title: Board['title'];
-  description: Board['description'];
 
-  constructor({ title, description }: Pick<Board, 'title' | 'description'>) {
-    this.title = title;
-    this.description = description;
-  }
+  @IsNotEmpty()
+  description: Board['description'];
 }
