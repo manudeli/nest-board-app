@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseBoolPipe,
   ParseUUIDPipe,
@@ -24,6 +25,7 @@ import { User } from 'src/auth/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('Boards');
   constructor(private boardsService: BoardsService) {
     this.boardsService = boardsService;
   }
@@ -33,12 +35,18 @@ export class BoardsController {
     @Query('isOnlyMine', ParseBoolPipe) isOnlyMine: boolean,
     @GetUser() user: User,
   ) {
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardsService.getAllBoards(isOnlyMine, user);
   }
 
   @Post('/')
   @UsePipes(ValidationPipe)
   createBoard(@Body() body: CreateBoardDTO, @GetUser() user: User) {
+    this.logger.verbose(
+      `User ${user.username} creating a new board, Payload: ${JSON.stringify(
+        body,
+      )}`,
+    );
     return this.boardsService.createBoard(body, user);
   }
 
