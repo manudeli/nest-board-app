@@ -48,8 +48,11 @@ export class BoardsController {
   }
 
   @Delete('/:id')
-  deleteBoard(@Param('id', ParseUUIDPipe) id: Board['id']) {
-    return this.boardsService.deleteBoard(id);
+  deleteBoard(
+    @Param('id', ParseUUIDPipe) id: Board['id'],
+    @GetUser() user: User,
+  ) {
+    return this.boardsService.deleteBoard(id, user);
   }
 
   @Patch('/:id/status')
