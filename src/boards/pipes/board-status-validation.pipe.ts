@@ -1,5 +1,9 @@
-import { BoardStatus } from './../board.model';
-import { BadRequestException, PipeTransform } from '@nestjs/common';
+import { BoardStatus } from '../board-status.enum';
+import {
+  BadRequestException,
+  ParseEnumPipe,
+  PipeTransform,
+} from '@nestjs/common';
 
 export class BoardStatusValidationPipe implements PipeTransform {
   readonly StatusOptions = [BoardStatus.PRIVATE, BoardStatus.PUBLIC];
@@ -18,3 +22,5 @@ export class BoardStatusValidationPipe implements PipeTransform {
     return this.StatusOptions.indexOf(status) !== -1;
   }
 }
+
+export const ParseBoardStatusPipe = new ParseEnumPipe(BoardStatus);
