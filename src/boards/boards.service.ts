@@ -13,10 +13,10 @@ export class BoardsService {
     private boardRepository: Repository<Board>,
   ) {}
 
-  async getBoards() {
-    const boards = this.boardRepository.find();
-
-    return boards;
+  async getAllBoards(isOnlyMine: boolean, user: User) {
+    return this.boardRepository.find(
+      isOnlyMine ? { where: { user: { id: user.id } } } : undefined,
+    );
   }
 
   async createBoard(dto: CreateBoardDTO, user: User) {

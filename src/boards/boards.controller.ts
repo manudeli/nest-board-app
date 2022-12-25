@@ -5,9 +5,11 @@ import {
   Delete,
   Get,
   Param,
+  ParseBoolPipe,
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -27,8 +29,11 @@ export class BoardsController {
   }
 
   @Get('/')
-  getBoards() {
-    return this.boardsService.getBoards();
+  getAllBoards(
+    @Query('isOnlyMine', ParseBoolPipe) isOnlyMine: boolean,
+    @GetUser() user: User,
+  ) {
+    return this.boardsService.getAllBoards(isOnlyMine, user);
   }
 
   @Post('/')
